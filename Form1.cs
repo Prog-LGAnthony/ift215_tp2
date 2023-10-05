@@ -60,6 +60,7 @@ namespace ift215_lab1
             comboBox_abonnement.ValueMember = "ID";
 
             textbox_email.TextChanged += CourrielChange;
+            textbox_mp.TextChanged += MotPasseChange;
         }
 
         private void textbox_prenom_TextChanged(object sender, EventArgs e)
@@ -116,18 +117,19 @@ namespace ift215_lab1
             }
         }
 
-        //private void CourrielChange(object sender, EventArgs e)
-        //{
-        //    string email = textbox_email.Text;
-        //    if (IsEmailAddressValid(email))
-        //    {
-        //        textbox_email.BackColor = Color.Aquamarine;
-        //    }
-        //    else
-        //    {
-        //        textbox_email.BackColor = Color.Coral;
-        //    }
-        //}
+        public bool IsPassewordValid(string email)
+        {
+            try
+            {
+                Regex reg = new Regex(@"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@#$%&*;:~])[A-Za-z\d@#$%&*;:~]{12,}$",
+                RegexOptions.IgnoreCase);
+                return (reg.IsMatch(email));
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
         private void CourrielChange(object sender, EventArgs e)
         {
@@ -151,6 +153,31 @@ namespace ift215_lab1
             {
                 /// Idem
                 textbox_email.BackColor = Color.Coral;
+            }
+        }
+
+        private void MotPasseChange(object sender, EventArgs e)
+        {
+            /// Attention ici nous avons fait une refactorisation des noms des textboxes
+            string mp = textbox_mp.Text;
+            if (IsPassewordValid(mp))
+            {
+                var compteExistant = comptes.FirstOrDefault(o => o.MotDePasse == mp);
+                if (compteExistant != null)
+                {
+                    /// Idem
+                    textbox_mp.BackColor = Color.Coral;
+                }
+                else
+                {
+                    /// Idem
+                    textbox_mp.BackColor = Color.Aquamarine;
+                }
+            }
+            else
+            {
+                /// Idem
+                textbox_mp.BackColor = Color.Coral;
             }
         }
 
@@ -187,7 +214,14 @@ namespace ift215_lab1
             });
         }
 
+        private void textbox_mp_TextChanged(object sender, EventArgs e)
+        {
 
+        }
 
+        private void label_mp_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
