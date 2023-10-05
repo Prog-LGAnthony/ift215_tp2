@@ -1,4 +1,4 @@
-namespace ift215_tp2
+namespace ift215_lab1
 {
     internal static class Program
     {
