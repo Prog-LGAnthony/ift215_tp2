@@ -61,6 +61,7 @@ namespace ift215_lab1
 
             textbox_email.TextChanged += CourrielChange;
             textbox_mp.TextChanged += MotPasseChange;
+
         }
 
         private void textbox_prenom_TextChanged(object sender, EventArgs e)
@@ -117,20 +118,6 @@ namespace ift215_lab1
             }
         }
 
-        public bool IsPassewordValid(string email)
-        {
-            try
-            {
-                Regex reg = new Regex(@"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@#$%&*;:~])[A-Za-z\d@#$%&*;:~]{12,}$",
-                RegexOptions.IgnoreCase);
-                return (reg.IsMatch(email));
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
         private void CourrielChange(object sender, EventArgs e)
         {
             /// Attention ici nous avons fait une refactorisation des noms des textboxes
@@ -156,6 +143,61 @@ namespace ift215_lab1
             }
         }
 
+        public bool IsPassewordValid(string mp)
+        {
+
+            if (!Regex.IsMatch(mp, @"^(?=.*[A-Z])"))
+            {
+                label_mp_maj.ForeColor = Color.DarkRed;
+            } else
+            {
+                label_mp_maj.ForeColor = Color.DarkOliveGreen;
+            }
+
+            if (!Regex.IsMatch(mp, @"^(?=.*[a-z])"))
+            {
+                label_mp_minuscule.ForeColor = Color.DarkRed;
+            } else
+            {
+                label_mp_minuscule.ForeColor = Color.DarkOliveGreen;
+            }
+
+            if (!Regex.IsMatch(mp, @"^(?=.*\d)"))
+            {
+                label_mp_chiffre.ForeColor = Color.DarkRed;
+            } else
+            {
+                label_mp_chiffre.ForeColor = Color.DarkOliveGreen;
+            }
+
+            if (!Regex.IsMatch(mp, @"^(?=(?:[^@#$%&*;:~]*[@#$%&*;:~]){2})"))
+            {
+                label_mp_carac.ForeColor = Color.DarkRed;
+            } else
+            {
+                label_mp_carac.ForeColor = Color.DarkOliveGreen;
+            }
+
+            if (!Regex.IsMatch(mp, @"^[A-Za-z\d@#$%&*;:~]{12,}"))
+            {
+                label_mp_min.ForeColor = Color.DarkRed;
+            } else
+            {
+                label_mp_min.ForeColor = Color.DarkOliveGreen;
+            }
+
+            try
+            {
+                Regex reg = new Regex(@"/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=(?:[^@#$%&*;:~]*[@#$%&*;:~]){2})[A-Za-z\d@#$%&*;:~]{12,}$/gm",
+                RegexOptions.IgnoreCase);
+                return (reg.IsMatch(mp));
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         private void MotPasseChange(object sender, EventArgs e)
         {
             /// Attention ici nous avons fait une refactorisation des noms des textboxes
@@ -166,18 +208,18 @@ namespace ift215_lab1
                 if (compteExistant != null)
                 {
                     /// Idem
-                    textbox_mp.BackColor = Color.Coral;
+                    textbox_mp.BackColor = Color.DarkOliveGreen;
                 }
                 else
                 {
                     /// Idem
-                    textbox_mp.BackColor = Color.Aquamarine;
+                    textbox_mp.BackColor = Color.DarkRed;
                 }
             }
             else
             {
                 /// Idem
-                textbox_mp.BackColor = Color.Coral;
+                textbox_mp.BackColor = Color.DarkOliveGreen;
             }
         }
 
@@ -222,6 +264,99 @@ namespace ift215_lab1
         private void label_mp_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void label1_Click_2(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click_3(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form1_Load_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label_mp_chiffre_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label_mp_carac_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label_mp_min_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button_mp_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button_mp_MouseDown(object sender, MouseEventArgs e)
+        {
+            // Afficher les caractères du mot de passe en définissant PasswordChar sur '\0' (null).
+            textbox_mp.PasswordChar = '\0';
+        }
+
+        private void button_mp_MouseUp(object sender, MouseEventArgs e)
+        {
+            // Cacher à nouveau les caractères du mot de passe en rétablissant PasswordChar à '*'.
+            textbox_mp.PasswordChar = '*';
+        }
+
+        private void button_submit_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox1_Enter_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void linkLabel_code_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if (textBox_code.Visible)
+            {
+                textBox_code.Visible = false;
+                label_code.Visible = false;
+
+                label_email.Visible = true;
+                label_mp.Visible = true;
+                textbox_email.Visible = true;
+                textbox_mp.Visible = true;
+                label_mp_carac.Visible = true;
+                label_mp_chiffre.Visible = true;
+                label_mp_maj.Visible = true;
+                label_mp_minuscule.Visible = true;
+                label_mp_min.Visible = true;
+                button_mp.Visible = true;
+            } else
+            {
+                textBox_code.Visible = true;
+                label_code.Visible = true;
+
+                label_email.Visible = false;
+                label_mp.Visible = false;
+                textbox_email.Visible = false;
+                textbox_mp.Visible = false;
+                label_mp_carac.Visible = false;
+                label_mp_chiffre.Visible = false;
+                label_mp_maj.Visible = false;
+                label_mp_minuscule.Visible = false;
+                label_mp_min.Visible = false;
+                button_mp.Visible = false;
+            }
+            
         }
     }
 }
