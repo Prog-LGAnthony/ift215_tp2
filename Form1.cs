@@ -5,47 +5,17 @@ namespace ift215_lab1
     public partial class Form1 : Form
     {
         private List<Compte> comptes;
+        private int remainingTime = 5; // Temps en secondes
+        private bool notification_lock = false;
+        private bool emailValid = false;
+        private bool mpValid = false;
+
 
         public Form1()
         {
             InitializeComponent();
             InitMyComponents();
             CreerCompte();
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox3_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void InitMyComponents()
@@ -62,46 +32,39 @@ namespace ift215_lab1
             textbox_email.TextChanged += CourrielChange;
             textbox_mp.TextChanged += MotPasseChange;
 
-        }
-
-        private void textbox_prenom_TextChanged(object sender, EventArgs e)
-        {
+            timer_notification.Tick += timer_notification_Tick;
 
         }
 
-        //private void button1_Click(object sender, EventArgs e)
-        //{
-        //    string prenom = textbox_prenom.Text;
-        //    string nom = textbox_nom.Text;
-        //    string courriel = textbox_email.Text;
-        //    /// Le champ de mots de passe sera utile pour le devoir ... mais pas ici
-        //    string motDePasse = textbox_mp.Text;
-        //    AbonnementItem abonnement = (AbonnementItem)comboBox_abonnement.SelectedItem;
-        //    string resume = prenom + " " + nom + " " + courriel + " " +
-        //     abonnement.Texte + " à " + abonnement.Valeur + "$.";
-        //    MessageBox.Show(resume);
-        //}
-
-        private void button1_Click(object sender, EventArgs e)
+        private void button_submit_Click(object sender, EventArgs e)
         {
-            string prenom = textbox_prenom.Text;
-            string nom = textbox_nom.Text;
-            string courriel = textbox_email.Text;
-            string motDePasse = textbox_mp.Text;
-            AbonnementItem abonnement = (AbonnementItem)comboBox_abonnement.SelectedItem;
-            string resume = prenom + " " + nom + " " + courriel + " " + abonnement.Texte
-           + " à " + abonnement.Valeur + "$.";
-            MessageBox.Show(resume);
-            Compte nouveau = new Compte
+            if(emailValid && mpValid && textbox_nom.Text != "" && textbox_prenom.Text != "" )
             {
-                Prenom = prenom,
-                Nom = nom,
-                Courriel =
-           courriel,
-                MotDePasse = motDePasse,
-                Abonnement = abonnement.ID
-            };
-            comptes.Add(nouveau);
+                string prenom = textbox_prenom.Text;
+                string nom = textbox_nom.Text;
+                string courriel = textbox_email.Text;
+                string motDePasse = textbox_mp.Text;
+                AbonnementItem abonnement = (AbonnementItem)comboBox_abonnement.SelectedItem;
+                string resume = prenom + " " + nom + " " + courriel + " " + abonnement.Texte
+               + " à " + abonnement.Valeur + "$.";
+                MessageBox.Show(resume);
+                Compte nouveau = new Compte
+                {
+                    Prenom = prenom,
+                    Nom = nom,
+                    Courriel =
+               courriel,
+                    MotDePasse = motDePasse,
+                    Abonnement = abonnement.ID
+                };
+                comptes.Add(nouveau);
+
+                remainingTime = 6;
+                label_timer.Text = "00:05";
+                notification_lock = false;
+                timer_notification.Start();
+                groupBox_notification.Visible = true;
+            }
         }
 
         public bool IsEmailAddressValid(string email)
@@ -124,6 +87,7 @@ namespace ift215_lab1
             string email = textbox_email.Text;
             if (IsEmailAddressValid(email))
             {
+                emailValid = true;
                 var compteExistant = comptes.FirstOrDefault(o => o.Courriel == email);
                 if (compteExistant != null)
                 {
@@ -138,6 +102,7 @@ namespace ift215_lab1
             }
             else
             {
+                emailValid = false;
                 /// Idem
                 textbox_email.BackColor = Color.Coral;
             }
@@ -204,22 +169,24 @@ namespace ift215_lab1
             string mp = textbox_mp.Text;
             if (IsPassewordValid(mp))
             {
+                mpValid = true;
                 var compteExistant = comptes.FirstOrDefault(o => o.MotDePasse == mp);
                 if (compteExistant != null)
                 {
                     /// Idem
-                    textbox_mp.BackColor = Color.DarkOliveGreen;
+                    textbox_mp.ForeColor = Color.DarkOliveGreen;
                 }
                 else
                 {
                     /// Idem
-                    textbox_mp.BackColor = Color.DarkRed;
+                    textbox_mp.ForeColor = Color.DarkRed;
                 }
             }
             else
             {
+                mpValid = false;
                 /// Idem
-                textbox_mp.BackColor = Color.DarkOliveGreen;
+                textbox_mp.ForeColor = Color.DarkOliveGreen;
             }
         }
 
@@ -256,51 +223,6 @@ namespace ift215_lab1
             });
         }
 
-        private void textbox_mp_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label_mp_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click_2(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click_3(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Form1_Load_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label_mp_chiffre_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label_mp_carac_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label_mp_min_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button_mp_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void button_mp_MouseDown(object sender, MouseEventArgs e)
         {
             // Afficher les caractères du mot de passe en définissant PasswordChar sur '\0' (null).
@@ -313,14 +235,31 @@ namespace ift215_lab1
             textbox_mp.PasswordChar = '*';
         }
 
-        private void button_submit_Click(object sender, EventArgs e)
+        private void timer_notification_Tick(object sender, EventArgs e)
         {
+            if (!notification_lock)
+            {
+                // Mettez à jour le temps restant et affichez-le sur le Label.
+                remainingTime--;
 
-        }
-
-        private void groupBox1_Enter_1(object sender, EventArgs e)
-        {
-
+                // Vérifiez si le temps est écoulé.
+                if (remainingTime <= 0)
+                {
+                    timer_notification.Stop();
+                    label_timer.Text = "Temps écoulé";
+                    groupBox_notification.Visible = false;
+                }
+                else
+                {
+                    // Affichez le temps restant au format mm:ss (minutes:secondes).
+                    TimeSpan timeSpan = TimeSpan.FromSeconds(remainingTime);
+                    label_timer.Text = $"{timeSpan.Minutes:D2}:{timeSpan.Seconds:D2}";
+                }
+            }
+            else
+            {
+                timer_notification.Stop();
+            }
         }
 
         private void linkLabel_code_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -357,6 +296,37 @@ namespace ift215_lab1
                 button_mp.Visible = false;
             }
             
+        }
+
+        private void groupBox_notification_MouseEnter(object sender, EventArgs e)
+        {
+            timer_notification.Stop();
+        }
+
+        private void groupBox_notification_MouseLeave(object sender, EventArgs e)
+        {
+            timer_notification.Start();
+        }
+
+        private void groupBox_notification_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                remainingTime = 0;
+                groupBox_notification.Visible = false;
+            }
+        }
+
+        private void button_notification_Click(object sender, EventArgs e)
+        {
+            remainingTime = 0;
+            groupBox_notification.Visible = false;
+        }
+
+        private void groupBox_notification_Click(object sender, EventArgs e)
+        {
+            notification_lock = true;
+            label_timer.Visible = false;
         }
     }
 }
