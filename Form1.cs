@@ -9,6 +9,7 @@ namespace ift215_lab1
         private bool notification_lock = false;
         private bool emailValid = false;
         private bool mpValid = false;
+        private bool codeValid = false;
 
 
         public Form1()
@@ -38,7 +39,7 @@ namespace ift215_lab1
 
         private void button_submit_Click(object sender, EventArgs e)
         {
-            if(emailValid && mpValid && textbox_nom.Text != "" && textbox_prenom.Text != "" )
+            if (emailValid && mpValid && textbox_nom.Text != "" && textbox_prenom.Text != "" || codeValid && textBox_code.Text != "")
             {
                 string prenom = textbox_prenom.Text;
                 string nom = textbox_nom.Text;
@@ -114,7 +115,8 @@ namespace ift215_lab1
             if (!Regex.IsMatch(mp, @"^(?=.*[A-Z])"))
             {
                 label_mp_maj.ForeColor = Color.DarkRed;
-            } else
+            }
+            else
             {
                 label_mp_maj.ForeColor = Color.DarkOliveGreen;
             }
@@ -122,7 +124,8 @@ namespace ift215_lab1
             if (!Regex.IsMatch(mp, @"^(?=.*[a-z])"))
             {
                 label_mp_minuscule.ForeColor = Color.DarkRed;
-            } else
+            }
+            else
             {
                 label_mp_minuscule.ForeColor = Color.DarkOliveGreen;
             }
@@ -130,7 +133,8 @@ namespace ift215_lab1
             if (!Regex.IsMatch(mp, @"^(?=.*\d)"))
             {
                 label_mp_chiffre.ForeColor = Color.DarkRed;
-            } else
+            }
+            else
             {
                 label_mp_chiffre.ForeColor = Color.DarkOliveGreen;
             }
@@ -138,7 +142,8 @@ namespace ift215_lab1
             if (!Regex.IsMatch(mp, @"^(?=(?:[^@#$%&*;:~]*[@#$%&*;:~]){2})"))
             {
                 label_mp_carac.ForeColor = Color.DarkRed;
-            } else
+            }
+            else
             {
                 label_mp_carac.ForeColor = Color.DarkOliveGreen;
             }
@@ -146,14 +151,15 @@ namespace ift215_lab1
             if (!Regex.IsMatch(mp, @"^[A-Za-z\d@#$%&*;:~]{12,}"))
             {
                 label_mp_min.ForeColor = Color.DarkRed;
-            } else
+            }
+            else
             {
                 label_mp_min.ForeColor = Color.DarkOliveGreen;
             }
 
             try
             {
-                Regex reg = new Regex(@"/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=(?:[^@#$%&*;:~]*[@#$%&*;:~]){2})[A-Za-z\d@#$%&*;:~]{12,}$/gm",
+                Regex reg = new Regex(@"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=(?:[^@#$%&*;:~]*[@#$%&*;:~]){2})[A-Za-z\d@#$%&*;:~]{12,}$",
                 RegexOptions.IgnoreCase);
                 return (reg.IsMatch(mp));
             }
@@ -174,19 +180,19 @@ namespace ift215_lab1
                 if (compteExistant != null)
                 {
                     /// Idem
-                    textbox_mp.ForeColor = Color.DarkOliveGreen;
+                    textbox_mp.ForeColor = Color.DarkRed;
                 }
                 else
                 {
                     /// Idem
-                    textbox_mp.ForeColor = Color.DarkRed;
+                    textbox_mp.ForeColor = Color.DarkOliveGreen;
                 }
             }
             else
             {
                 mpValid = false;
                 /// Idem
-                textbox_mp.ForeColor = Color.DarkOliveGreen;
+                textbox_mp.ForeColor = Color.DarkRed;
             }
         }
 
@@ -266,6 +272,7 @@ namespace ift215_lab1
         {
             if (textBox_code.Visible)
             {
+                codeValid = false;
                 textBox_code.Visible = false;
                 label_code.Visible = false;
 
@@ -279,8 +286,10 @@ namespace ift215_lab1
                 label_mp_minuscule.Visible = true;
                 label_mp_min.Visible = true;
                 button_mp.Visible = true;
-            } else
+            }
+            else
             {
+                codeValid = true;
                 textBox_code.Visible = true;
                 label_code.Visible = true;
 
@@ -295,7 +304,7 @@ namespace ift215_lab1
                 label_mp_min.Visible = false;
                 button_mp.Visible = false;
             }
-            
+
         }
 
         private void groupBox_notification_MouseEnter(object sender, EventArgs e)
@@ -312,6 +321,8 @@ namespace ift215_lab1
         {
             if (e.Button == MouseButtons.Left)
             {
+                notification_lock = false;
+                label_timer.Visible = true;
                 remainingTime = 0;
                 groupBox_notification.Visible = false;
             }
@@ -319,6 +330,8 @@ namespace ift215_lab1
 
         private void button_notification_Click(object sender, EventArgs e)
         {
+            notification_lock = false;
+            label_timer.Visible = true;
             remainingTime = 0;
             groupBox_notification.Visible = false;
         }
